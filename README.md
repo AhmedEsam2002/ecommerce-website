@@ -37,11 +37,21 @@ This is an e-commerce website project that demonstrates modern frontend developm
 ```
 ecommerce-website/
 ├── public/
-│   └── vite.svg                 # Vite logo asset
+│   ├── Logo.png                # Project logo
+│   └── vite.svg                # Vite logo asset
 ├── src/
 │   ├── assets/
 │   │   └── react.svg           # React logo asset
-│   ├── App.tsx                 # Main application component (currently basic setup)
+│   ├── Components/             # React components directory
+│   │   ├── Layout/
+│   │   │   └── Layout.tsx     # Main layout with Navbar, Outlet, Footer
+│   │   ├── Navbar/
+│   │   │   └── Navbar.tsx     # Navigation component
+│   │   ├── Footer/
+│   │   │   └── Footer.tsx     # Footer component
+│   │   └── NotFound/
+│   │       └── NotFound.tsx   # 404 page component
+│   ├── App.tsx                 # Router configuration with React Router DOM
 │   ├── App.css                 # Component-specific styles (empty, using Tailwind)
 │   ├── main.tsx                # Application entry point
 │   ├── index.css               # Global styles with Tailwind imports
@@ -62,22 +72,26 @@ ecommerce-website/
 
 ```
 src/
-├── components/
-│   ├── common/                 # Reusable UI components
-│   ├── product/               # Product-related components
-│   ├── cart/                  # Shopping cart components
-│   └── auth/                  # Authentication components
-├── pages/                     # Page components
+├── Components/                 # Current component structure
+│   ├── Layout/                ✅ Layout with Navbar, Outlet, Footer
+│   ├── Navbar/                ✅ Navigation component (basic)
+│   ├── Footer/                ✅ Footer component (basic)
+│   ├── NotFound/              ✅ 404 error page
+│   ├── Product/               # Product-related components (planned)
+│   ├── Cart/                  # Shopping cart components (planned)
+│   ├── Auth/                  # Authentication components (planned)
+│   └── Common/                # Reusable UI components (planned)
+├── pages/                     # Page components (planned)
 │   ├── Home.tsx
 │   ├── Products.tsx
 │   ├── ProductDetail.tsx
 │   ├── Cart.tsx
 │   └── Checkout.tsx
-├── hooks/                     # Custom React hooks
-├── services/                  # API services
-├── types/                     # TypeScript type definitions
-├── utils/                     # Utility functions
-└── contexts/                  # React contexts for state management
+├── hooks/                     # Custom React hooks (planned)
+├── services/                  # API services (planned)
+├── types/                     # TypeScript type definitions (planned)
+├── utils/                     # Utility functions (planned)
+└── contexts/                  # React contexts for state management (planned)
 ```
 
 ## 🚦 Getting Started
@@ -115,7 +129,7 @@ src/
 4. **Open your browser**
    Navigate to `http://localhost:5173` to view the application
 
-   You should see a "Hello world!" message styled with Tailwind CSS, confirming the setup is working correctly.
+   The application now shows a proper layout structure with Navbar, main content area (currently showing NotFound component), and Footer sections.
 
 ## 📜 Available Scripts
 
@@ -126,23 +140,33 @@ src/
 
 ## 🎨 Features
 
-### Current Implementation
+### Current Implementation ✅
 
 - **Project Foundation** - Modern React 19 setup with TypeScript
+- **React Router DOM** - Client-side routing with layout structure implemented
+- **Component Architecture** - Layout, Navbar, Footer, and NotFound components created
+- **Layout Structure** - Responsive layout with header, main content area, and footer
 - **Development Environment** - Vite dev server with hot reload
 - **Styling Framework** - Tailwind CSS ready for responsive design
 - **Code Quality** - ESLint configuration for consistent code standards
-- **Basic UI** - Initial "Hello World" implementation with Tailwind styling
+- **Project Assets** - Logo.png added to public directory
 
-### Planned E-Commerce Features
+### Component Details
 
+- **Layout Component** - Main layout structure using React Router's `Outlet`
+- **Navbar Component** - Basic navigation component (ready for expansion)
+- **Footer Component** - Basic footer component (ready for expansion)
+- **NotFound Component** - 404 error page for undefined routes
+
+### Planned E-Commerce Features 📋
+
+- **Home Page** - Landing page with featured products
 - **Product Catalog** - Display products with images, prices, and descriptions
 - **Shopping Cart** - Add/remove items, quantity management
 - **User Authentication** - Login/signup functionality
 - **Product Search & Filtering** - Search and filter products by categories
-- **Responsive Design** - Mobile-first design approach
-- **API Integration** - Ready for REST API integration with Axios
-- **Routing** - Multi-page navigation with React Router DOM
+- **Responsive Design** - Mobile-first design approach with enhanced styling
+- **API Integration** - REST API integration with Axios
 
 ## 🔧 Configuration
 
@@ -193,16 +217,35 @@ The built files will be in the `dist` directory, ready for deployment to any sta
 
 ## 🎯 Current Application State
 
-The application is currently in its initial setup phase:
+The application has progressed from initial setup to having a solid component foundation:
 
-- **What's Working**: Basic React app with "Hello world!" message styled with Tailwind CSS
+### ✅ What's Implemented
+
+- **Layout Structure**: Complete layout with header, main content area, and footer
+- **React Router**: Configured with layout structure and route handling
+- **Component Architecture**: Basic Navbar, Footer, and NotFound components
 - **Development Server**: Runs on `http://localhost:5173`
 - **Build System**: Vite configured and ready
-- **Styling**: Tailwind CSS properly configured
+- **Styling**: Tailwind CSS properly configured with responsive layout
 - **TypeScript**: Full type checking enabled
 - **Linting**: ESLint rules active for code quality
+- **Assets**: Project logo integrated
 
-**Next Steps**: Begin implementing the e-commerce features according to the development roadmap above.
+### 🎯 Current View
+
+When you run the application, you'll see:
+
+- **Navbar**: Basic navigation component at the top
+- **Main Content**: Currently displays NotFound component (since no specific routes are defined yet)
+- **Footer**: Basic footer component at the bottom
+- **Layout**: Flexbox layout structure with proper spacing
+
+### 📋 Next Steps
+
+1. Create Home page component and route
+2. Enhance Navbar with navigation links
+3. Add product-related components
+4. Implement shopping cart functionality
 
 ## 📝 Development Notes
 
@@ -211,7 +254,9 @@ The application is currently in its initial setup phase:
 - Tailwind CSS is configured for utility-first styling approach
 - TypeScript ensures type safety across the entire application
 - ESLint maintains code quality and consistency
-- Currently displays "Hello world!" - ready for e-commerce development
+- **Component Structure**: Uses PascalCase for component directories (Components/Layout/, Components/Navbar/, etc.)
+- **React Router**: Implemented with layout pattern using Outlet for nested routing
+- **Responsive Layout**: Uses Flexbox with min-height screen for proper footer positioning
 
 ## 🛣️ Development Roadmap
 
@@ -222,30 +267,42 @@ The application is currently in its initial setup phase:
 - [x] Tailwind CSS integration
 - [x] ESLint configuration
 - [x] Basic project structure
+- [x] React Router DOM configuration
+- [x] Layout component with Navbar, Outlet, Footer
+- [x] Basic component structure (Navbar, Footer, NotFound)
+- [x] Project logo asset added
 
-### Phase 2: Core E-Commerce Features 🚧
+### Phase 2: Core Components & Pages 🚧
 
-- [ ] Create component structure (Header, Footer, ProductCard, etc.)
-- [ ] Implement product catalog page
-- [ ] Add product detail page
+- [x] Layout structure implementation
+- [x] Navigation component (basic structure)
+- [x] Footer component (basic structure)
+- [x] 404 NotFound page
+- [ ] Home page component
+- [ ] Product catalog page
+- [ ] Product detail page
+- [ ] Enhanced Navbar with navigation links
+- [ ] Enhanced Footer with links and info
+
+### Phase 3: E-Commerce Features 📋
+
 - [ ] Create shopping cart functionality
 - [ ] Implement local storage for cart persistence
-
-### Phase 3: Advanced Features 📋
-
+- [ ] Product components (ProductCard, ProductList)
 - [ ] User authentication system
 - [ ] Product search and filtering
 - [ ] Category navigation
 - [ ] Checkout process
 - [ ] Order history
 
-### Phase 4: Polish & Optimization 🎨
+### Phase 4: Advanced Features & Optimization 🎨
 
 - [ ] Responsive design refinement
 - [ ] Performance optimization
-- [ ] Error handling
-- [ ] Loading states
+- [ ] Error handling and loading states
 - [ ] Accessibility improvements
+- [ ] API integration with Axios
+- [ ] State management optimization
 
 ## 🤝 Contributing
 
@@ -269,11 +326,19 @@ The application is currently in its initial setup phase:
 
 ### Getting Started with Development
 
-1. Pick a feature from the roadmap
-2. Create a new branch: `git checkout -b feature/your-feature-name`
-3. Implement the feature following the guidelines
-4. Test thoroughly
-5. Submit a pull request
+1. **Pick a feature from the roadmap**
+2. **Create a new branch**: `git checkout -b feature/your-feature-name`
+3. **Implement the feature following the guidelines**
+4. **Test thoroughly**
+5. **Submit a pull request**
+
+### Quick Development Tips
+
+- **Adding New Pages**: Create components in `src/Components/` and add routes in `App.tsx`
+- **Styling**: Use Tailwind classes; the layout already has responsive structure
+- **Components**: Follow the existing pattern with individual component folders
+- **TypeScript**: Define interfaces for props and data structures
+- **Testing**: Test all components in both desktop and mobile viewports
 
 ## 📄 License
 
