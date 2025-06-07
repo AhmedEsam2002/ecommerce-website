@@ -6,6 +6,8 @@ A modern, full-featured e-commerce web application built with React 19, TypeScri
 
 FreshCart is a comprehensive e-commerce platform that showcases modern web development practices using cutting-edge technologies. The application features a complete user authentication system, advanced form handling with validation, responsive design, and a professional UI built with Tailwind CSS. This project serves as the capstone for the Route Course frontend development program, demonstrating proficiency in React ecosystem, TypeScript development, and modern web application architecture.
 
+**🔗 Repository**: [https://github.com/AhmedEsam2002/ecommerce-website](https://github.com/AhmedEsam2002/ecommerce-website)
+
 ## 🛠️ Tech Stack
 
 ### Core Technologies
@@ -146,7 +148,7 @@ src/
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AhmedEsam2002/ecommerce-website.git
    cd ecommerce-website
    ```
 
@@ -589,7 +591,7 @@ The application is fully responsive and works seamlessly on:
 1. **Clone and Setup**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AhmedEsam2002/ecommerce-website.git
    cd ecommerce-website
    pnpm install
    ```
@@ -617,6 +619,8 @@ The application is fully responsive and works seamlessly on:
 ## 📄 License
 
 This project is part of the Route Frontend Development Course and is intended for educational purposes. It serves as a final project to demonstrate proficiency in React, TypeScript, and modern web development practices for building e-commerce applications.
+
+**GitHub Repository**: [https://github.com/AhmedEsam2002/ecommerce-website](https://github.com/AhmedEsam2002/ecommerce-website)
 
 ---
 
