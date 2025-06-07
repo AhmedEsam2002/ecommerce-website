@@ -1,40 +1,13 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 // Formik => is a popular library for handling forms in React, providing features like validation, error handling, and <<<<<<<<form state management>>>>>>>>.
 // controlled components => is a way to manage form inputs in React where the component's state is the single source of truth for the input values, allowing for easier validation and manipulation of form data.
 // uncontrolled components => is a way to manage form inputs in React where the input elements maintain their own state, and the component does not directly control their values, making it simpler but less flexible for complex forms.
-const loadingStyle = () => {
-  return (
-    <>
-      <div className="flex items-center justify-center">
-        <svg
-          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        Logging in...
-      </div>
-    </>
-  );
-};
+
 export default function Login() {
   const navigate = useNavigate();
   const loginData = {
@@ -153,15 +126,22 @@ export default function Login() {
             </div>
 
             <button
-              className={`w-full py-3 px-4 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium ${
+              className={`w-full py-3 px-4 rounded-lg focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors font-medium flex justify-center items-center ${
                 loading || !loginFormik.isValid
                   ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                  : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  : "bg-green-600 text-white hover:bg-green-700"
               }`}
               type="submit"
               disabled={loading || !loginFormik.isValid}
             >
-              {loading ? loadingStyle() : "Sign In"}
+              {loading ? (
+                <>
+                  <InfinitySpin width="60" color="green" />
+                  <span className="ms-3"> Signing in ... </span>
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
 
