@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { InfinitySpin } from "react-loader-spinner";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -204,19 +205,22 @@ export default function Register() {
             </div>
 
             <button
-              className={`w-full py-3 px-4 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium ${
-                loading ||
-                RegisterFromik.isSubmitting ||
-                !RegisterFromik.isValid
+              className={`w-full py-3 px-4 rounded-lg focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors font-medium flex justify-center items-center ${
+                loading || !RegisterFromik.isValid
                   ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                  : !RegisterFromik.isValid
-                  ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                  : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  : "bg-green-600 text-white hover:bg-green-700"
               }`}
               type="submit"
               disabled={loading || !RegisterFromik.isValid}
             >
-              {loading ? "...Loading" : "Register"}
+              {loading ? (
+                <>
+                  <InfinitySpin width="60" color="green" />
+                  <span className="ms-3"> Signing in ... </span>
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
         </div>
