@@ -20,25 +20,48 @@ const validationSchema = Yup.object({
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm password is required"),
   phone: Yup.string()
-    .matches(/^[0-9]+$/, "Phone number must contain only numbers")
-    .min(10, "Phone number must be at least 10 digits")
+    .matches(
+      /^01[0125][0-9]{8}$/,
+      "Phone number must be a valid Egyptian phone number (01XXXXXXXXX)"
+    )
     .required("Phone number is required"),
 });
+
 export default function Register() {
   const navigate = useNavigate();
-  const [registerData, setRegisterData] = useState({
+  const registerData = {
     name: "",
     email: "",
     password: "",
     rePassword: "",
     phone: "",
-  });
+  };
   const [loading, setLoading] = useState(false);
 
   const RegisterFromik = useFormik({
     initialValues: registerData,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log("Form submitted:", values);
+      setLoading(true);
+      try {
+        const { data } = await axios.post(
+          "https://ecommerce.routemisr.com/api/v1/auth/signup",
+          values
+        );
+        console.log("Registration successful:", data);
+        toast.success("Registration successful!");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } catch (error: any) {
+        console.error("Registration error:", error?.response?.data?.message);
+        toast.error(
+          error?.response?.data?.message ||
+            "Registration failed. Please try again."
+        );
+      } finally {
+        setLoading(false);
+      }
     },
     validationSchema: validationSchema,
     validateOnChange: true,
