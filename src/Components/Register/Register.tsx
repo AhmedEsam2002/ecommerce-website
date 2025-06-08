@@ -50,9 +50,13 @@ export default function Register() {
           values
         );
         console.log("Registration successful:", data);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        // Redirect to login page after successful registration
         toast.success("Registration successful!");
+        // Redirect to home page after 3 seconds
         setTimeout(() => {
-          navigate("/login");
+          navigate("/");
         }, 3000);
       } catch (error: any) {
         console.error("Registration error:", error?.response?.data?.message);
