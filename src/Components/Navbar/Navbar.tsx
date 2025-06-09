@@ -17,9 +17,9 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { NavLink, Link } from "react-router-dom";
 import Logo from "/images/freshcart-logo.svg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../Contexts/AuthContextProvider";
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [cartCount] = useState(3);
@@ -56,6 +56,11 @@ export default function Navbar() {
     { icon: faYoutube, href: "#", color: "hover:text-red-600" },
   ];
 
+  const { token, setToken } = useContext(AuthContext);
+
+  function handleLogout() {
+    setToken("");
+  }
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-lg border-b border-gray-100">
       {/* Top Bar */}
@@ -163,7 +168,7 @@ export default function Navbar() {
 
             {/* Authentication */}
             <div className="hidden md:flex items-center space-x-3">
-              {!isAuthenticated ? (
+              {!token ? (
                 <>
                   <NavLink
                     to="/login"
@@ -184,7 +189,7 @@ export default function Navbar() {
                     <FontAwesomeIcon icon={faUser} className="text-green-600" />
                   </button>
                   <button
-                    onClick={() => setIsAuthenticated(false)}
+                    onClick={handleLogout}
                     className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-br from-red-600 to-red-700 rounded-full hover:from-red-700 hover:to-red-800 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 relative overflow-hidden before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-all before:duration-500 hover:before:left-full"
                   >
                     Logout
@@ -254,7 +259,7 @@ export default function Navbar() {
 
             {/* Mobile Authentication */}
             <div className="border-t border-gray-200 pt-4 space-y-2">
-              {!isAuthenticated ? (
+              {!token ? (
                 <>
                   <NavLink
                     to="/login"

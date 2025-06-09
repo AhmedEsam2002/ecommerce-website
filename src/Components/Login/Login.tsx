@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { AuthContext } from "../../Contexts/AuthContextProvider";
 // Formik => is a popular library for handling forms in React, providing features like validation, error handling, and <<<<<<<<form state management>>>>>>>>.
 // controlled components => is a way to manage form inputs in React where the component's state is the single source of truth for the input values, allowing for easier validation and manipulation of form data.
 // uncontrolled components => is a way to manage form inputs in React where the input elements maintain their own state, and the component does not directly control their values, making it simpler but less flexible for complex forms.
@@ -15,7 +16,7 @@ export default function Login() {
     password: "",
   };
   const [loading, setLoading] = useState(false);
-
+  const { setToken } = useContext(AuthContext);
   const loginFormik = useFormik({
     initialValues: loginData,
     onSubmit: async (values) => {
@@ -28,8 +29,7 @@ export default function Login() {
         );
         console.log(data.token, data.user, data.message);
         toast.success("Login successful!");
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        setToken(data.token);
         navigate("/");
       } catch (error: any) {
         console.log("Login error:", error?.response?.data?.message);

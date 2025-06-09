@@ -9,7 +9,9 @@ export default function Layout() {
       <div className="flex flex-col min-h-screen justify-between  items-center  w-full bg-gray-50">
         <Navbar />
 
-        <Outlet />
+        <div className="w-full ">
+          <Outlet />
+        </div>
 
         <Footer />
       </div>

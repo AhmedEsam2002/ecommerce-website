@@ -1,0 +1,44 @@
+import { createContext, useEffect, useRef, useState } from "react";
+
+interface AuthContextType {
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+  token: "",
+  setToken: () => {},
+});
+
+export default function AuthContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [token, setToken] = useState("");
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      console.log("Update :", token);
+      if (token) {
+        localStorage.setItem("token", token);
+      } else {
+        localStorage.removeItem("token");
+      }
+    } else {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+      }
+      isMounted.current = true;
+      console.log("Mount,", storedToken);
+    }
+  }, [token]);
+
+  return (
+    <AuthContext.Provider value={{ token, setToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
