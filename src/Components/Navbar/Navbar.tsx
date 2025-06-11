@@ -19,10 +19,11 @@ import { NavLink, Link } from "react-router-dom";
 import Logo from "/images/freshcart-logo.svg";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthContextProvider";
+import useCart from "../../Hooks/useCart";
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartCount] = useState(3);
+  const { cartCount } = useCart();
 
   // Close mobile menu when window is resized
   useEffect(() => {

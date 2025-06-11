@@ -1,63 +1,13 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
-
-interface Product {
-  _id: string;
-  title: string;
-  slug: string;
-  imageCover: string;
-  images: string[];
-  price: number;
-  priceAfterDiscount?: number;
-  description: string;
-  quantity: number;
-  sold: number;
-  ratingsAverage?: number;
-  ratingsQuantity?: number;
-  category?: {
-    _id: string;
-    name: string;
-    slug: string;
-    image: string;
-  };
-  brand?: {
-    _id: string;
-    name: string;
-    slug: string;
-    image: string;
-  };
-  subcategory?: {
-    _id: string;
-    name: string;
-    slug: string;
-    category: string;
-  }[];
-}
+import useProducts from "../../Hooks/useProducts";
+import useCart from "../../Hooks/useCart";
 
 export default function Products() {
-  const {
-    data,
-    error,
-    isLoading: loading,
-  } = useQuery({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const response = await axios.get(
-        "https://ecommerce.routemisr.com/api/v1/products"
-      );
-      return response.data.data;
-    },
-  });
+  const { products, isLoading, isError, TopProducts } = useProducts();
 
-  const products: Product[] = data || [];
+  const { addToCart } = useCart();
 
-  const addToCart = (product: Product) => {
-    toast.success(`Added ${product.title} to cart!`, {
-      position: "top-right",
-      autoClose: 2000,
-    });
-  };
+  // console.log(products ? products[0] : "No products found");
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -92,7 +42,7 @@ export default function Products() {
     return stars;
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -103,16 +53,14 @@ export default function Products() {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
             <div className="text-red-500 text-4xl mb-4">⚠️</div>
             <h2 className="text-xl font-bold text-gray-800 mb-4">Error</h2>
-            <p className="text-gray-600 mb-6">
-              {error?.message || "Something went wrong"}
-            </p>
+            <p className="text-gray-600 mb-6">{"Something went wrong"}</p>
             <button
               onClick={() => window.location.reload()}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
@@ -143,7 +91,7 @@ export default function Products() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product: Product) => (
+            {products.map((product: any) => (
               <div
                 key={product._id}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
