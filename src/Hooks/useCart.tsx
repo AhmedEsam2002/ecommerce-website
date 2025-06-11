@@ -8,12 +8,13 @@ export default function useCart() {
     setCart([...cart, item]);
   }
 
-  function removeFromCart(itemId: string) {
-    setCart(cart.filter((item) => item.id !== itemId));
-  }
-  function clearCart() {
-    setCart([]);
-  }
+  // TODO: Implement these functions when cart functionality is fully developed
+  // function removeFromCart(itemId: string) {
+  //   setCart(cart.filter((item) => item.id !== itemId));
+  // }
+  // function clearCart() {
+  //   setCart([]);
+  // }
 
   return {
     cart,

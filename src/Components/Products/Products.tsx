@@ -1,9 +1,9 @@
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify"; // TODO: Implement toast notifications
 import useProducts from "../../Hooks/useProducts";
 import useCart from "../../Hooks/useCart";
 
 export default function Products() {
-  const { products, isLoading, isError, TopProducts } = useProducts();
+  const { products, isLoading, isError } = useProducts(); // Removed unused TopProducts
 
   const { addToCart } = useCart();
 

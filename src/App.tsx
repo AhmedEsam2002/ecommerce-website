@@ -9,7 +9,7 @@ import Products from "./Components/Products/Products";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Categories from "./Components/Categories/Categories";
 import Brands from "./Components/Brands/Brands";
-import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+// import PrivateRoute from "./Components/PrivateRoute/PrivateRoute"; // TODO: Implement when needed
 import CartContextProvider from "./Contexts/CartContextProvider/CartContextProvider";
 const router = createBrowserRouter([
   {
