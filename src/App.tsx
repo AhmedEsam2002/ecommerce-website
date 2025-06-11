@@ -11,6 +11,7 @@ import Categories from "./Components/Categories/Categories";
 import Brands from "./Components/Brands/Brands";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute"; // TODO: Implement when needed
 import CartContextProvider from "./Contexts/CartContextProvider/CartContextProvider";
+import Cart from "./Components/Cart/Cart";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
     ],
   },
   {
@@ -66,11 +71,11 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <CartContextProvider>
-          <AuthContextProvider>
+        <AuthContextProvider>
+          <CartContextProvider>
             <RouterProvider router={router} />
-          </AuthContextProvider>
-        </CartContextProvider>
+          </CartContextProvider>
+        </AuthContextProvider>
       </QueryClientProvider>
     </>
   );

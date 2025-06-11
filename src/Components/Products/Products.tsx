@@ -5,7 +5,7 @@ import useCart from "../../Hooks/useCart";
 export default function Products() {
   const { products, isLoading, isError } = useProducts(); // Removed unused TopProducts
 
-  const { addToCart } = useCart();
+  const { handleAddToCart } = useCart();
 
   // console.log(products ? products[0] : "No products found");
 
@@ -212,7 +212,7 @@ export default function Products() {
 
                   {/* Add to Cart Button */}
                   <button
-                    onClick={() => addToCart(product)}
+                    onClick={() => handleAddToCart(product._id)}
                     disabled={product.quantity === 0}
                     className={`w-full py-2 px-4 rounded transition-colors text-sm font-medium ${
                       product.quantity === 0
