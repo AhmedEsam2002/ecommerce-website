@@ -1,4 +1,5 @@
 import React from "react";
+import useAuth from "../../../Hooks/useAuth";
 
 interface ProductCardProps {
   product: any;
@@ -11,6 +12,7 @@ export default function ProductCard({
   onAddToCart,
   renderStars,
 }: ProductCardProps) {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       {/* Product Image */}
@@ -128,17 +130,19 @@ export default function ProductCard({
         </div>
 
         {/* Add to Cart Button */}
-        <button
-          onClick={() => onAddToCart(product)}
-          disabled={product.quantity === 0}
-          className={`w-full py-2 px-4 rounded transition-colors text-sm font-medium ${
-            product.quantity === 0
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-500 text-white hover:bg-blue-600"
-          }`}
-        >
-          {product.quantity === 0 ? "Out of Stock" : "Add to Cart"}
-        </button>
+        {isAuthenticated && (
+          <button
+            onClick={() => onAddToCart(product)}
+            disabled={product.quantity === 0}
+            className={`w-full py-2 px-4 rounded transition-colors text-sm font-medium ${
+              product.quantity === 0
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
+          >
+            {product.quantity === 0 ? "Out of Stock" : "Add to Cart"}
+          </button>
+        )}
       </div>
     </div>
   );

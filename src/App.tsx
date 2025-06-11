@@ -9,29 +9,45 @@ import Products from "./Components/Products/Products";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Categories from "./Components/Categories/Categories";
 import Brands from "./Components/Brands/Brands";
-// import PrivateRoute from "./Components/PrivateRoute/PrivateRoute"; // TODO: Implement when needed
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute"; // TODO: Implement when needed
 import CartContextProvider from "./Contexts/CartContextProvider/CartContextProvider";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <>
+        <Layout />
+      </>
+    ),
+
     children: [
-      { path: "*", element: <NotFound /> },
-      {
-        path: "/",
-        element: <Home />,
-      },
       {
         path: "products",
-        element: <Products />,
+        element: (
+          <PrivateRoute>
+            <Products />
+          </PrivateRoute>
+        ),
       },
       {
         path: "categories",
-        element: <Categories />,
+        element: (
+          <PrivateRoute>
+            <Categories />
+          </PrivateRoute>
+        ),
       },
       {
         path: "brands",
-        element: <Brands />,
+        element: (
+          <PrivateRoute>
+            <Brands />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "",
+        element: <Home />,
       },
     ],
   },
@@ -43,6 +59,7 @@ const router = createBrowserRouter([
     path: "register",
     element: <Register />,
   },
+  { path: "*", element: <NotFound /> },
 ]);
 const queryClient = new QueryClient();
 function App() {
