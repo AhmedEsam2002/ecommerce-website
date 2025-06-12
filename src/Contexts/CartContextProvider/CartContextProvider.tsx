@@ -1,22 +1,10 @@
 import axios from "axios";
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
-interface CartContextType {
-  cartData: any;
-  isLoadingCart: boolean;
-  isErrorCart: boolean;
-  errorCart: unknown;
-  cartCount: number;
-  handleAddToCart: (productId: number) => void;
-  handleUpdateProduct: (params: { productId: string; count: number }) => void;
-  handleRemoveFromCart: (productId: string) => void;
-}
-
-export const CartContext = createContext<CartContextType>(
-  {} as CartContextType
-);
+export const CartContext = createContext<any>({});
 
 export default function CartContextProvider({
   children,
@@ -24,8 +12,7 @@ export default function CartContextProvider({
   children: React.ReactNode;
 }) {
   const { token } = useAuth();
-  console.log("From context", token);
-  const queryClient = useQueryClient();
+  const [cartData, setCartData] = useState<any>(null);
 
   // --------- 1. Add to Cart ---------
   const addToCart = (productId: number) => {
@@ -42,19 +29,15 @@ export default function CartContextProvider({
 
   const cartMutation = useMutation({
     mutationFn: addToCart,
-    onSuccess: (response) => {
-      console.log("✅ Product added to cart:", response.data);
-      queryClient.invalidateQueries({ queryKey: ["Cart"] });
+    onSuccess: async (response) => {
+      toast.success(response.data.message, {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
+      await refetchCart();
     },
     onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          "❌ Error adding product:",
-          error.response?.data?.message || error.message
-        );
-      } else {
-        console.error("❌ Unknown error:", error);
-      }
+      toast.error(error.message);
     },
   });
 
@@ -69,10 +52,11 @@ export default function CartContextProvider({
     });
 
   const {
-    data: cartData,
+    data,
     isLoading: isLoadingCart,
     isError: isErrorCart,
     error: errorCart,
+    refetch: refetchCart,
   } = useQuery({
     queryKey: ["Cart"],
     queryFn: getCart,
@@ -82,17 +66,11 @@ export default function CartContextProvider({
     gcTime: 1000 * 60 * 10,
     retry: 3,
     retryDelay: 1000,
-    select: (res) => res.data.data,
+    select: (res) => res.data,
   });
 
-  // --------- 3. Update Quantity ---------
-  const updateProductQuantity = ({
-    productId,
-    count,
-  }: {
-    productId: string;
-    count: number;
-  }) => {
+  // --------- 3. Update Cart Item Quantity ---------
+  const updateCartQuantity = (productId: string, count: number) => {
     return axios.put(
       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
       { count },
@@ -102,73 +80,98 @@ export default function CartContextProvider({
     );
   };
 
-  const updateCartMutation = useMutation({
-    mutationFn: updateProductQuantity,
-    onSuccess: (response) => {
-      console.log("✅ Product updated:", response.data);
-      queryClient.invalidateQueries({ queryKey: ["Cart"] });
+  const updateQuantityMutation = useMutation({
+    mutationFn: ({ productId, count }: { productId: string; count: number }) =>
+      updateCartQuantity(productId, count),
+    onSuccess: () => {
+      toast.success("Cart updated successfully", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+      refetchCart();
     },
     onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          "❌ Error updating product:",
-          error.response?.data?.message || error.message
-        );
-      } else {
-        console.error("❌ Unknown error:", error);
-      }
+      toast.error(error.message || "Failed to update cart");
     },
   });
 
-  function handleUpdateProduct({
-    productId,
-    count,
-  }: {
-    productId: string;
-    count: number;
-  }) {
-    updateCartMutation.mutate({ productId, count });
+  function handleUpdateQuantity(productId: string, count: number) {
+    updateQuantityMutation.mutate({ productId, count });
   }
 
-  // --------- 4. Remove from Cart ---------
-  const removeFromCart = (productId: string) =>
-    axios.delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
+  // --------- 4. Remove Cart Item ---------
+  const removeCartItem = (productId: string) => {
+    return axios.delete(
+      `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
+      {
+        headers: { token },
+      }
+    );
+  };
+
+  const removeItemMutation = useMutation({
+    mutationFn: removeCartItem,
+    onSuccess: () => {
+      toast.success("Item removed from cart", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+      refetchCart();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to remove item");
+    },
+  });
+
+  function handleRemoveItem(productId: string) {
+    removeItemMutation.mutate(productId);
+  }
+
+  // --------- 5. Clear Cart ---------
+  const clearCart = () => {
+    return axios.delete("https://ecommerce.routemisr.com/api/v1/cart", {
       headers: { token },
     });
+  };
 
-  const deleteCartMutation = useMutation({
-    mutationFn: removeFromCart,
+  const clearCartMutation = useMutation({
+    mutationFn: clearCart,
     onSuccess: () => {
-      console.log("✅ Product removed from cart");
-      queryClient.invalidateQueries({ queryKey: ["Cart"] });
+      toast.success("Cart cleared successfully", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+      refetchCart();
     },
     onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          "❌ Error removing product:",
-          error.response?.data?.message || error.message
-        );
-      } else {
-        console.error("❌ Unknown error:", error);
-      }
+      toast.error(error.message || "Failed to clear cart");
     },
   });
 
-  function handleRemoveFromCart(productId: string) {
-    deleteCartMutation.mutate(productId);
+  function handleClearCart() {
+    clearCartMutation.mutate();
   }
+
+  useEffect(() => {
+    console.log("Cart data fetched:", data);
+    setCartData(data);
+  }, [data]);
 
   return (
     <CartContext.Provider
       value={{
         cartData,
+        handleAddToCart,
+        handleUpdateQuantity,
+        handleRemoveItem,
+        handleClearCart,
         isLoadingCart,
         isErrorCart,
         errorCart,
-        cartCount: cartData?.products?.length || 0,
-        handleAddToCart,
-        handleUpdateProduct,
-        handleRemoveFromCart,
+        numOfCartItems: cartData?.numOfCartItems || 0,
+        isUpdatingQuantity: updateQuantityMutation.isPending,
+        isRemovingItem: removeItemMutation.isPending,
+        isClearingCart: clearCartMutation.isPending,
       }}
     >
       {children}

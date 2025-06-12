@@ -1,5 +1,4 @@
 import React from "react";
-import { toast } from "react-toastify";
 import useProducts from "../../Hooks/useProducts";
 import useBrands from "../../Hooks/useBrands";
 import HeroSection from "./Components/HeroSection";
@@ -10,6 +9,7 @@ import BrandsSection from "./Components/BrandsSection";
 import NewsletterSection from "./Components/NewsletterSection";
 import StatsSection from "./Components/StatsSection";
 import useCategories from "../../Hooks/useCategories";
+import useCart from "../../Hooks/useCart";
 
 export default function Home() {
   const { TopProducts } = useProducts();
@@ -19,13 +19,7 @@ export default function Home() {
     isError: brandsError,
   } = useBrands();
 
-  const addToCart = (product: any) => {
-    toast.success(`Added ${product.title} to cart!`, {
-      position: "top-right",
-      autoClose: 2000,
-    });
-  };
-
+  const { handleAddToCart } = useCart();
   const {
     isLoading: categoriesLoading,
     isError: categoriesError,
@@ -79,7 +73,7 @@ export default function Home() {
       />
       <FeaturedProductsSection
         products={featuredProducts}
-        onAddToCart={addToCart}
+        onAddToCart={handleAddToCart}
         renderStars={renderStars}
       />
       <BrandsSection

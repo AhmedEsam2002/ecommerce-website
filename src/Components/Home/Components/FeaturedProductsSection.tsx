@@ -3,7 +3,7 @@ import ProductCard from "./ProductCard";
 
 interface FeaturedProductsSectionProps {
   products: any[];
-  onAddToCart: (product: any) => void;
+  onAddToCart: (productId: any) => void;
   renderStars: (rating: number) => React.ReactElement[];
 }
 

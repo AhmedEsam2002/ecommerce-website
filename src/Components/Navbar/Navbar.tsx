@@ -23,7 +23,8 @@ import useCart from "../../Hooks/useCart";
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { cartCount } = useCart();
+  const { numOfCartItems } = useCart();
+  console.log("numOfCartItems", numOfCartItems);
 
   // Close mobile menu when window is resized
   useEffect(() => {
@@ -160,9 +161,9 @@ export default function Navbar() {
                 icon={faShoppingCart}
                 className="text-gray-600 group-hover:text-green-600 transition-colors duration-200 text-lg"
               />
-              {cartCount > 0 && (
+              {numOfCartItems > 0 && (
                 <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-green-500 rounded-full animate-badge-pulse">
-                  {cartCount}
+                  {numOfCartItems}
                 </span>
               )}
             </Link>

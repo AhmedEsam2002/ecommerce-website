@@ -132,7 +132,7 @@ export default function ProductCard({
         {/* Add to Cart Button */}
         {isAuthenticated && (
           <button
-            onClick={() => onAddToCart(product)}
+            onClick={() => onAddToCart(product._id)}
             disabled={product.quantity === 0}
             className={`w-full py-2 px-4 rounded transition-colors text-sm font-medium ${
               product.quantity === 0
