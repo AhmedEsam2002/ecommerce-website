@@ -1,6 +1,6 @@
 import React from "react";
 import useAuth from "../../../Hooks/useAuth";
-
+import { Link } from "react-router-dom";
 interface ProductCardProps {
   product: any;
   onAddToCart: (product: any) => void;
@@ -16,53 +16,54 @@ export default function ProductCard({
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       {/* Product Image */}
-      <div className="relative h-48 bg-gray-200 group">
-        <img
-          src={product.imageCover}
-          alt={product.title.split(" ").splice(0, 2).join(" ")}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+      <Link to={`/products/${product._id}`} className="block">
+        <div className="relative h-48 bg-gray-200 group">
+          <img
+            src={product.imageCover}
+            alt={product.title.split(" ").splice(0, 2).join(" ")}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
 
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {product.category && (
-            <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
-              {product.category.name}
-            </span>
+          {/* Badges */}
+          <div className="absolute top-2 left-2 flex flex-col gap-1">
+            {product.category && (
+              <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                {product.category.name}
+              </span>
+            )}
+            {product.priceAfterDiscount && (
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">
+                SALE
+              </span>
+            )}
+          </div>
+
+          {/* Sold Count Badge */}
+          {product.sold > 0 && (
+            <div className="absolute top-2 right-2">
+              <span className="bg-green-500 text-white text-xs px-2 py-1 rounded">
+                {product.sold.toLocaleString()} sold
+              </span>
+            </div>
           )}
-          {product.priceAfterDiscount && (
-            <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">
-              SALE
-            </span>
+
+          {/* Stock Status */}
+          {product.quantity < 10 && product.quantity > 0 && (
+            <div className="absolute bottom-2 right-2">
+              <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded">
+                Only {product.quantity} left
+              </span>
+            </div>
+          )}
+          {product.quantity === 0 && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <span className="bg-red-600 text-white px-4 py-2 rounded font-semibold">
+                Out of Stock
+              </span>
+            </div>
           )}
         </div>
-
-        {/* Sold Count Badge */}
-        {product.sold > 0 && (
-          <div className="absolute top-2 right-2">
-            <span className="bg-green-500 text-white text-xs px-2 py-1 rounded">
-              {product.sold.toLocaleString()} sold
-            </span>
-          </div>
-        )}
-
-        {/* Stock Status */}
-        {product.quantity < 10 && product.quantity > 0 && (
-          <div className="absolute bottom-2 right-2">
-            <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded">
-              Only {product.quantity} left
-            </span>
-          </div>
-        )}
-        {product.quantity === 0 && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <span className="bg-red-600 text-white px-4 py-2 rounded font-semibold">
-              Out of Stock
-            </span>
-          </div>
-        )}
-      </div>
-
+      </Link>
       {/* Product Info */}
       <div className="p-4">
         {/* Brand */}

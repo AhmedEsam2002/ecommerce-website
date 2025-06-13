@@ -13,6 +13,7 @@ import PrivateRoute from "./Components/PrivateRoute/PrivateRoute"; // TODO: Impl
 import CartContextProvider from "./Contexts/CartContextProvider/CartContextProvider";
 import Cart from "./Components/Cart/Cart";
 import { ToastContainer } from "react-toastify";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
             <Cart />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/products/:id",
+        element: <ProductDetails />,
       },
     ],
   },

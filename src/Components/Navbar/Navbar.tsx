@@ -24,7 +24,6 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { numOfCartItems } = useCart();
-  console.log("numOfCartItems", numOfCartItems);
 
   // Close mobile menu when window is resized
   useEffect(() => {

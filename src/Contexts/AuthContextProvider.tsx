@@ -15,12 +15,11 @@ export default function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const isMounted = useRef(false);
 
   useEffect(() => {
     if (isMounted.current) {
-      console.log("Update :", token);
       if (token) {
         localStorage.setItem("token", token);
       } else {
@@ -32,7 +31,6 @@ export default function AuthContextProvider({
         setToken(storedToken);
       }
       isMounted.current = true;
-      console.log("Mount,", storedToken);
     }
   }, [token]);
 

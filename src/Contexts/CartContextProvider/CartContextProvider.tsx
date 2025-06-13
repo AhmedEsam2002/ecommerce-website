@@ -153,7 +153,6 @@ export default function CartContextProvider({
   }
 
   useEffect(() => {
-    console.log("Cart data fetched:", data);
     setCartData(data);
   }, [data]);
 
