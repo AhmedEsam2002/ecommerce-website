@@ -202,17 +202,6 @@ export default function Products() {
               <p className="text-gray-600">
                 Showing {filteredProducts.length} of {products.length} products
               </p>
-
-              {/* Sort Options - can be added later */}
-              <div className="flex items-center gap-2">
-                <label className="text-sm text-gray-600">Sort by:</label>
-                <select className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                  <option>Featured</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Name: A to Z</option>
-                </select>
-              </div>
             </div>
 
             {/* Products Grid */}
@@ -229,7 +218,7 @@ export default function Products() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  gap-4 sm:gap-6">
                 {filteredProducts.map((product: any) => (
                   <ProductCard
                     key={product._id}
