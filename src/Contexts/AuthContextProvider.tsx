@@ -1,12 +1,12 @@
 import { createContext, useEffect, useRef, useState } from "react";
 
 interface AuthContextType {
-  token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
+  token: string | null;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
-  token: "",
+  token: null,
   setToken: () => {},
 });
 

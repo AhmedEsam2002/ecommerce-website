@@ -9,15 +9,16 @@ export default function ProductDetails() {
   const { handleAddToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  function getProductDetails(id) {
+  function getProductDetails(id: string) {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
   }
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["Product", id],
-    queryFn: () => getProductDetails(id),
+    queryFn: () => getProductDetails(id!),
     gcTime: 100000000,
     select: (res) => res.data.data,
+    enabled: !!id, // Only run query if id exists
   });
 
   if (isLoading) {
@@ -65,7 +66,7 @@ export default function ProductDetails() {
                 className="w-full h-full object-cover"
               />
             </button>
-            {data.images.map((image, index) => (
+            {data.images.map((image: string, index: number) => (
               <button
                 key={index}
                 onClick={() => setSelectedImage(index + 1)}
